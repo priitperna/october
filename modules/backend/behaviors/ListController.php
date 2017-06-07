@@ -252,6 +252,11 @@ class ListController extends ControllerBehavior
              * Filter the list when the scopes are changed
              */
             $filterWidget->bindEvent('filter.update', function () use ($widget, $filterWidget) {
+                $result = $this->controller->listFilterExtendUpdateEvent($widget, $filterWidget);
+                if ($result && is_array($result)) {
+                    return array_merge($widget->onRefresh(), $result);
+                }
+
                 return $widget->onRefresh();
             });
 
@@ -524,6 +529,15 @@ class ListController extends ControllerBehavior
      * @param array $scope
      */
     public function listFilterExtendQuery($query, $scope)
+    {
+    }
+
+    /**
+     * Controller override: Extend the results returned from the filter.update event
+     * @param \Backend\Widgets\Lists $widget
+     * @param \Backend\Widgets\Filter $filterWidget
+     */
+    public function listFilterExtendUpdateEvent($widget, $filterWidget)
     {
     }
 
